@@ -1,0 +1,40 @@
+<html>
+    <head>
+		<title>My WebSocket</title
+        <style>
+            input, button { padding: 10px; }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="nickname" />
+		<input type="text" id="message" />
+        <button onclick="sendMessage()">Send</button>
+		
+		<div id="chat"></div>
+        
+		<script>
+            
+			// Create a new WebSocket.
+            var socket  = new WebSocket('ws://localhost:8080');
+
+            // Define the 
+			var message = document.getElementById('message');
+			var nickname = document.getElementById('nickname');
+
+            function sendMessage() {
+				var msg = {
+					message: message.value,
+					nickname: nickname.value
+				};				
+				socket.send( JSON.stringify(msg) );
+				chat.innerHTML += '<b>' +nickname.value +'</b>: '+message.value + '<br />';
+            }
+
+            socket.onmessage = function(e) {
+                var chat = document.getElementById('chat');
+				chat.innerHTML += e.data + '<br />';
+            }
+			
+        </script>
+    </body>
+</html>
